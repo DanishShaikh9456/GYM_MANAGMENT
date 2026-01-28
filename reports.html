@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - FitPro Gym Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>FitPro Gym</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="members.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Members</span>
+                </a>
+                <a href="attendance.html" class="nav-item">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Attendance</span>
+                </a>
+                <a href="expenses.html" class="nav-item">
+                    <i class="fas fa-receipt"></i>
+                    <span>Expenses</span>
+                </a>
+                <a href="reports.html" class="nav-item active">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="#" class="nav-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button onclick="toggleTheme()" class="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="top-bar">
+                <h1>Reports & Analytics</h1>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Admin</span>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-chart-bar"></i> Key Metrics</h2>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalRevenue">$0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="activeMembers">0</h3>
+                            <p>Active Members</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="avgAttendance">0%</h3>
+                            <p>Avg Attendance</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="growthRate">+0%</h3>
+                            <p>Growth Rate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue Breakdown -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-dollar-sign"></i> Revenue by Plan</h2>
+                </div>
+                
+                <div class="plans-grid">
+                    <div class="plan-stat">
+                        <h4>Monthly Plans</h4>
+                        <p class="plan-count" id="monthlyRevenue">$0</p>
+                        <small id="monthlyCount">0 members</small>
+                    </div>
+                    <div class="plan-stat">
+                        <h4>Quarterly Plans</h4>
+                        <p class="plan-count" id="quarterlyRevenue">$0</p>
+                        <small id="quarterlyCount">0 members</small>
+                    </div>
+                    <div class="plan-stat">
+                        <h4>Yearly Plans</h4>
+                        <p class="plan-count" id="yearlyRevenue">$0</p>
+                        <small id="yearlyCount">0 members</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Membership Analysis -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-users"></i> Membership Analysis</h2>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="newMembers">0</h3>
+                            <p>New Members</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="paidMembers">0</h3>
+                            <p>Paid Members</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="pendingPayments">0</h3>
+                            <p>Pending</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="expiringSoon">0</h3>
+                            <p>Expiring Soon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expense Summary -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-receipt"></i> Expense Summary</h2>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalExpenses">$0</h3>
+                            <p>Total Expenses</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="monthlyExpenses">$0</h3>
+                            <p>Monthly</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="profit">$0</h3>
+                            <p>Net Profit</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-percent"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="profitMargin">0%</h3>
+                            <p>Profit Margin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        function loadReports() {
+            const members = Storage.getMembers();
+            const expenses = Storage.getExpenses();
+            const attendance = Storage.getAttendance();
+            
+            // Plan prices
+            const prices = { Monthly: 50, Quarterly: 135, Yearly: 500 };
+            
+            // Revenue calculations
+            const monthlyMembers = members.filter(m => m.plan === 'Monthly' && m.paid);
+            const quarterlyMembers = members.filter(m => m.plan === 'Quarterly' && m.paid);
+            const yearlyMembers = members.filter(m => m.plan === 'Yearly' && m.paid);
+            
+            const monthlyRev = monthlyMembers.length * prices.Monthly;
+            const quarterlyRev = quarterlyMembers.length * prices.Quarterly;
+            const yearlyRev = yearlyMembers.length * prices.Yearly;
+            const totalRev = monthlyRev + quarterlyRev + yearlyRev;
+            
+            document.getElementById('totalRevenue').textContent = `$${totalRev.toFixed(2)}`;
+            document.getElementById('monthlyRevenue').textContent = `$${monthlyRev.toFixed(2)}`;
+            document.getElementById('quarterlyRevenue').textContent = `$${quarterlyRev.toFixed(2)}`;
+            document.getElementById('yearlyRevenue').textContent = `$${yearlyRev.toFixed(2)}`;
+            
+            document.getElementById('monthlyCount').textContent = `${monthlyMembers.length} members`;
+            document.getElementById('quarterlyCount').textContent = `${quarterlyMembers.length} members`;
+            document.getElementById('yearlyCount').textContent = `${yearlyMembers.length} members`;
+            
+            // Member stats
+            document.getElementById('activeMembers').textContent = members.filter(m => m.paid).length;
+            document.getElementById('newMembers').textContent = members.filter(m => {
+                const joinDate = new Date(m.joinDate);
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                return joinDate > thirtyDaysAgo;
+            }).length;
+            document.getElementById('paidMembers').textContent = members.filter(m => m.paid).length;
+            document.getElementById('pendingPayments').textContent = members.filter(m => !m.paid).length;
+            
+            // Expiring soon
+            const today = new Date();
+            const sevenDaysFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const expiring = members.filter(m => {
+                if (!m.expiryDate) return false;
+                const expiry = new Date(m.expiryDate);
+                return m.paid && expiry > today && expiry <= sevenDaysFromNow;
+            });
+            document.getElementById('expiringSoon').textContent = expiring.length;
+            
+            // Attendance
+            if (members.length > 0) {
+                const today = new Date().toISOString().split('T')[0];
+                const todayAtt = attendance.filter(a => a.date === today).length;
+                const avgPercent = ((todayAtt / members.length) * 100).toFixed(0);
+                document.getElementById('avgAttendance').textContent = `${avgPercent}%`;
+            }
+            
+            // Expenses
+            const totalExp = expenses.reduce((sum, e) => sum + e.amount, 0);
+            const currentMonth = new Date().getMonth();
+            const monthlyExp = expenses.filter(e => new Date(e.date).getMonth() === currentMonth)
+                .reduce((sum, e) => sum + e.amount, 0);
+            
+            document.getElementById('totalExpenses').textContent = `$${totalExp.toFixed(2)}`;
+            document.getElementById('monthlyExpenses').textContent = `$${monthlyExp.toFixed(2)}`;
+            
+            // Profit
+            const profit = totalRev - monthlyExp;
+            document.getElementById('profit').textContent = `$${profit.toFixed(2)}`;
+            
+            // Profit margin
+            const margin = totalRev > 0 ? ((profit / totalRev) * 100).toFixed(1) : 0;
+            document.getElementById('profitMargin').textContent = `${margin}%`;
+            
+            // Growth rate (comparing last 30 days to previous 30 days)
+            const sixtyDaysAgo = new Date();
+            sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            
+            const recentMembers = members.filter(m => new Date(m.joinDate) > thirtyDaysAgo).length;
+            const previousMembers = members.filter(m => {
+                const jd = new Date(m.joinDate);
+                return jd > sixtyDaysAgo && jd <= thirtyDaysAgo;
+            }).length;
+            
+            const growth = previousMembers > 0 ? 
+                (((recentMembers - previousMembers) / previousMembers) * 100).toFixed(1) : 0;
+            document.getElementById('growthRate').textContent = `${growth > 0 ? '+' : ''}${growth}%`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadReports);
+    </script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>

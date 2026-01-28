@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses - FitPro Gym Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>FitPro Gym</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="members.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Members</span>
+                </a>
+                <a href="attendance.html" class="nav-item">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Attendance</span>
+                </a>
+                <a href="expenses.html" class="nav-item active">
+                    <i class="fas fa-receipt"></i>
+                    <span>Expenses</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="#" class="nav-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button onclick="toggleTheme()" class="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="top-bar">
+                <h1>Expense Management</h1>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Admin</span>
+                </div>
+            </div>
+
+            <!-- Expense Stats -->
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalExpenses">$0</h3>
+                        <p>Total Expenses</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="monthlyExpenses">$0</h3>
+                        <p>This Month</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="avgExpense">$0</h3>
+                        <p>Average Expense</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="categoryCount">0</h3>
+                        <p>Categories</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Expense Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-plus-circle"></i> Add New Expense</h2>
+                </div>
+                <form id="expenseForm" class="member-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category">
+                                <i class="fas fa-tag"></i> Category
+                            </label>
+                            <select id="category" required>
+                                <option value="">Select Category</option>
+                                <option value="Equipment">Equipment</option>
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Salaries">Salaries</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Supplies">Supplies</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="amount">
+                                <i class="fas fa-dollar-sign"></i> Amount
+                            </label>
+                            <input 
+                                type="number" 
+                                id="amount" 
+                                placeholder="0.00"
+                                step="0.01"
+                                min="0"
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">
+                            <i class="fas fa-file-alt"></i> Description
+                        </label>
+                        <input 
+                            type="text" 
+                            id="description" 
+                            placeholder="Enter expense details"
+                            required
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Add Expense
+                    </button>
+                </form>
+            </div>
+
+            <!-- Expense List -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-list"></i> Expense History</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="Search expenses..."
+                            onkeyup="searchExpenses()"
+                        >
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Added By</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenseTable">
+                            <tr>
+                                <td colspan="6" class="empty-state">
+                                    <i class="fas fa-receipt"></i>
+                                    <p>No expenses recorded yet</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-chart-pie"></i> Category Breakdown</h2>
+                </div>
+                <div id="categoryBreakdown" class="plans-grid"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        let allExpenses = [];
+
+        function loadExpenses() {
+            allExpenses = Storage.getExpenses();
+            displayExpenses(allExpenses);
+            updateStats();
+            updateCategoryBreakdown();
+        }
+
+        function displayExpenses(expenses) {
+            const tableBody = document.getElementById('expenseTable');
+            
+            if (expenses.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            <i class="fas fa-receipt"></i>
+                            <p>No expenses found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            tableBody.innerHTML = expenses.map(expense => `
+                <tr>
+                    <td>${Utils.formatDate(expense.date)}</td>
+                    <td>
+                        <span class="badge warning">
+                            <i class="fas fa-tag"></i> ${expense.category}
+                        </span>
+                    </td>
+                    <td>${expense.description}</td>
+                    <td><strong>$${expense.amount.toFixed(2)}</strong></td>
+                    <td>${expense.createdBy || 'Admin'}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn delete" onclick="deleteExpense(${expense.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function addExpense(e) {
+            e.preventDefault();
+
+            const category = document.getElementById('category').value;
+            const amount = document.getElementById('amount').value;
+            const description = document.getElementById('description').value;
+
+            const expense = Storage.addExpense({ category, amount, description });
+
+            if (expense) {
+                Utils.showNotification('Expense added successfully!', 'success');
+                document.getElementById('expenseForm').reset();
+                loadExpenses();
+            } else {
+                Utils.showNotification('Error adding expense', 'error');
+            }
+        }
+
+        function deleteExpense(id) {
+            if (!confirm('Are you sure you want to delete this expense?')) return;
+
+            if (Storage.deleteExpense(id)) {
+                Utils.showNotification('Expense deleted', 'success');
+                loadExpenses();
+            } else {
+                Utils.showNotification('Error deleting expense', 'error');
+            }
+        }
+
+        function updateStats() {
+            const total = allExpenses.reduce((sum, e) => sum + e.amount, 0);
+            const currentMonth = new Date().getMonth();
+            const monthlyTotal = allExpenses
+                .filter(e => new Date(e.date).getMonth() === currentMonth)
+                .reduce((sum, e) => sum + e.amount, 0);
+
+            const avg = allExpenses.length > 0 ? total / allExpenses.length : 0;
+            const categories = new Set(allExpenses.map(e => e.category)).size;
+
+            document.getElementById('totalExpenses').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('monthlyExpenses').textContent = `$${monthlyTotal.toFixed(2)}`;
+            document.getElementById('avgExpense').textContent = `$${avg.toFixed(2)}`;
+            document.getElementById('categoryCount').textContent = categories;
+        }
+
+        function updateCategoryBreakdown() {
+            const breakdown = {};
+            allExpenses.forEach(expense => {
+                breakdown[expense.category] = (breakdown[expense.category] || 0) + expense.amount;
+            });
+
+            const container = document.getElementById('categoryBreakdown');
+            const total = allExpenses.reduce((s, e) => s + e.amount, 0);
+            
+            if (Object.keys(breakdown).length === 0) {
+                container.innerHTML = '<p class="empty-state">No expense data available</p>';
+                return;
+            }
+
+            container.innerHTML = Object.entries(breakdown)
+                .map(([category, amount]) => `
+                    <div class="plan-stat">
+                        <h4>${category}</h4>
+                        <p class="plan-count">$${amount.toFixed(2)}</p>
+                        <small>${total > 0 ? ((amount / total) * 100).toFixed(1) : 0}%</small>
+                    </div>
+                `).join('');
+        }
+
+        function searchExpenses() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allExpenses.filter(expense =>
+                expense.category.toLowerCase().includes(searchTerm) ||
+                expense.description.toLowerCase().includes(searchTerm)
+            );
+            displayExpenses(filtered);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadExpenses();
+            
+            const form = document.getElementById('expenseForm');
+            if (form) {
+                form.addEventListener('submit', addExpense);
+            }
+        });
+    </script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>
